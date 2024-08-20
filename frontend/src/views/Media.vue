@@ -64,6 +64,9 @@
             class="link" :title="props.row.filename">
             {{ props.row.filename }}
           </a>
+          <b-taglist v-if="props.row.contentId">
+            <b-tag type="is-light"> <copy-text :text="`cid:${props.row.contentId}`" /></b-tag>
+          </b-taglist>
         </b-table-column>
 
         <b-table-column v-slot="props" field="thumb" width="30%">
@@ -101,10 +104,12 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 import EmptyPlaceholder from '../components/EmptyPlaceholder.vue';
+import CopyText from '../components/CopyText.vue';
 
 export default Vue.extend({
   components: {
     EmptyPlaceholder,
+    CopyText,
   },
 
   name: 'Media',

@@ -128,7 +128,7 @@ func handleUploadMedia(c echo.Context) error {
 			"height": height,
 		}
 	}
-	m, err := app.core.InsertMedia(fName, thumbfName, contentType, meta, app.constants.MediaUpload.Provider, app.media)
+	m, err := app.core.InsertMedia(fName, thumbfName, contentType, meta, app.constants.MediaUpload.Provider, app.media, app.constants.FromEmail)
 	if err != nil {
 		cleanUp = true
 		return err
@@ -147,14 +147,14 @@ func handleGetMedia(c echo.Context) error {
 
 	// Fetch one list.
 	if id > 0 {
-		out, err := app.core.GetMedia(id, "", app.media)
+		out, err := app.core.GetMedia(id, "", app.media, app.constants.FromEmail)
 		if err != nil {
 			return err
 		}
 		return c.JSON(http.StatusOK, okResp{out})
 	}
 
-	res, total, err := app.core.QueryMedia(app.constants.MediaUpload.Provider, app.media, query, pg.Offset, pg.Limit)
+	res, total, err := app.core.QueryMedia(app.constants.MediaUpload.Provider, app.media, query, pg.Offset, pg.Limit, app.constants.FromEmail)
 	if err != nil {
 		return err
 	}

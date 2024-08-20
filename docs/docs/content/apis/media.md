@@ -29,6 +29,7 @@ curl -u "username:password" -X GET 'http://localhost:9000/api/media' \
             "id": 1,
             "uuid": "ec7b45ce-1408-4e5c-924e-965326a20287",
             "filename": "Media file",
+            "content_id": "image_thumb.jpg_1@example.com",
             "created_at": "2020-04-08T22:43:45.080058+01:00",
             "thumb_url": "/uploads/image_thumb.jpg",
             "uri": "/uploads/image.jpg"
@@ -63,6 +64,7 @@ curl -u 'username:password' 'http://localhost:9000/api/media/7'
         "id": 7,
         "uuid": "62e32e97-d6ca-4441-923f-b62607000dd1",
         "filename": "ResumeB.pdf",
+        "content_id": "ResumeB.pdf_7@example.com",
         "content_type": "application/pdf",
         "created_at": "2024-08-06T11:28:53.888257+05:30",
         "thumb_url": null,

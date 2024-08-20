@@ -294,6 +294,7 @@
     "media.upload": "Cargar",
     "media.uploadHelp": "Seleccione o arrastre una o más imágenes aquí",
     "media.uploadImage": "Cargar imagen",
+    "media.contentID": "Content-ID",
     "menu.allCampaigns": "Todas las campañas",
     "menu.allLists": "Todas las listas",
     "menu.allSubscribers": "Todos los suscriptores",

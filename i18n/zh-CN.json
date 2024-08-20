@@ -293,6 +293,7 @@
     "media.upload": "上传",
     "media.uploadHelp": "在此处单击或拖动一张或多张图片",
     "media.uploadImage": "上传图片",
+    "media.contentID": "Content-ID",
     "menu.allCampaigns": "所有广告系列",
     "menu.allLists": "所有列表",
     "menu.allSubscribers": "所有订阅者",

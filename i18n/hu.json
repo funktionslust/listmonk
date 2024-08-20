@@ -293,6 +293,7 @@
     "media.upload": "Feltöltés",
     "media.uploadHelp": "Kattintson vagy húzzon ide egy vagy több képet",
     "media.uploadImage": "Kép feltöltése",
+    "media.contentID": "Content-ID",
     "menu.allCampaigns": "Minden kampány",
     "menu.allLists": "Minden lista",
     "menu.allSubscribers": "Minden tag",

@@ -647,7 +647,7 @@ func (m *Manager) attachMedia(c *models.Campaign) error {
 // MakeAttachmentHeader is a helper function that returns a
 // textproto.MIMEHeader tailored for attachments, primarily
 // email. If no encoding is given, base64 is assumed.
-func MakeAttachmentHeader(filename, encoding, contentType string) textproto.MIMEHeader {
+func MakeAttachmentHeader(filename, encoding, contentType, contentID string) textproto.MIMEHeader {
 	if encoding == "" {
 		encoding = "base64"
 	}
@@ -656,6 +656,9 @@ func MakeAttachmentHeader(filename, encoding, contentType string) textproto.MIME
 	}
 
 	h := textproto.MIMEHeader{}
+	if contentID != "" {
+		h.Set("Content-ID", "<"+contentID+">")
+	}
 	h.Set("Content-Disposition", "attachment; filename="+filename)
 	h.Set("Content-Type", fmt.Sprintf("%s; name=\""+filename+"\"", contentType))
 	h.Set("Content-Transfer-Encoding", encoding)

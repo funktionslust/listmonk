@@ -8,6 +8,7 @@ import (
 	"net/textproto"
 	"strings"
 
+	"github.com/knadh/listmonk/internal/core"
 	"github.com/knadh/listmonk/internal/manager"
 	"github.com/knadh/listmonk/models"
 	"github.com/labstack/echo/v4"
@@ -41,7 +42,7 @@ func handleSendTxMessage(c echo.Context) error {
 		}
 
 		// Attach files.
-		for _, f := range form.File["file"] {
+		for i, f := range form.File["file"] {
 			file, err := f.Open()
 			if err != nil {
 				return echo.NewHTTPError(http.StatusInternalServerError,
@@ -57,7 +58,7 @@ func handleSendTxMessage(c echo.Context) error {
 
 			m.Attachments = append(m.Attachments, models.Attachment{
 				Name:    f.Filename,
-				Header:  manager.MakeAttachmentHeader(f.Filename, "base64", f.Header.Get("Content-Type")),
+				Header:  manager.MakeAttachmentHeader(f.Filename, "base64", f.Header.Get("Content-Type"), core.MakeContentID(i, f.Filename, app.constants.FromEmail)),
 				Content: b,
 			})
 		}

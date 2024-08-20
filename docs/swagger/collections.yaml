@@ -3962,6 +3962,8 @@ components:
           type: string
         filename:
           type: string
+        content_id:
+          type: string
         created_at:
           type: string
         thumb_url:

@@ -13,7 +13,7 @@ import (
 )
 
 // QueryMedia returns media entries optionally filtered by a query string.
-func (c *Core) QueryMedia(provider string, s media.Store, query string, offset, limit int) ([]media.Media, int, error) {
+func (c *Core) QueryMedia(provider string, s media.Store, query string, offset, limit int, fromEmail string) ([]media.Media, int, error) {
 	out := []media.Media{}
 
 	if query != "" {
@@ -32,7 +32,7 @@ func (c *Core) QueryMedia(provider string, s media.Store, query string, offset, 
 
 		for i := 0; i < len(out); i++ {
 			out[i].URL = s.GetURL(out[i].Filename)
-
+			out[i].ContentID = MakeContentID(out[i].ID, out[i].Filename, fromEmail)
 			if out[i].Thumb != "" {
 				out[i].ThumbURL = null.String{Valid: true, String: s.GetURL(out[i].Thumb)}
 			}
@@ -43,7 +43,7 @@ func (c *Core) QueryMedia(provider string, s media.Store, query string, offset, 
 }
 
 // GetMedia returns a media item.
-func (c *Core) GetMedia(id int, uuid string, s media.Store) (media.Media, error) {
+func (c *Core) GetMedia(id int, uuid string, s media.Store, fromEmail string) (media.Media, error) {
 	var uu interface{}
 	if uuid != "" {
 		uu = uuid
@@ -54,7 +54,7 @@ func (c *Core) GetMedia(id int, uuid string, s media.Store) (media.Media, error)
 		return out, echo.NewHTTPError(http.StatusInternalServerError,
 			c.i18n.Ts("globals.messages.errorFetching", "name", "{globals.terms.media}", "error", pqErrMsg(err)))
 	}
-
+	out.ContentID = MakeContentID(out.ID, out.Filename, fromEmail)
 	out.URL = s.GetURL(out.Filename)
 	if out.Thumb != "" {
 		out.ThumbURL = null.String{Valid: true, String: s.GetURL(out.Thumb)}
@@ -63,8 +63,18 @@ func (c *Core) GetMedia(id int, uuid string, s media.Store) (media.Media, error)
 	return out, nil
 }
 
+// MakeContentID generates a RFC 2392 compliant Content-ID for an .
+func MakeContentID(MediaID int, filename string, fromEmail string) string {
+	fromHost := "listmonk"
+	fromEmailParts := strings.Split(fromEmail, "@")
+	if len(fromEmailParts) > 1 && fromEmailParts[1] != "" {
+		fromHost = strings.TrimSpace(strings.Trim(fromEmailParts[1], "<>"))
+	}
+	return fmt.Sprintf("%s_%d@%s", filename, MediaID, fromHost)
+}
+
 // InsertMedia inserts a new media file into the DB.
-func (c *Core) InsertMedia(fileName, thumbName, contentType string, meta models.JSON, provider string, s media.Store) (media.Media, error) {
+func (c *Core) InsertMedia(fileName, thumbName, contentType string, meta models.JSON, provider string, s media.Store, fromEmail string) (media.Media, error) {
 	uu, err := uuid.NewV4()
 	if err != nil {
 		c.log.Printf("error generating UUID: %v", err)
@@ -80,7 +90,7 @@ func (c *Core) InsertMedia(fileName, thumbName, contentType string, meta models.
 			c.i18n.Ts("globals.messages.errorCreating", "name", "{globals.terms.media}", "error", pqErrMsg(err)))
 	}
 
-	return c.GetMedia(newID, "", s)
+	return c.GetMedia(newID, "", s, fromEmail)
 }
 
 // DeleteMedia deletes a given media item and returns the filename of the deleted item.

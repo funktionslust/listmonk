@@ -293,6 +293,7 @@
     "media.upload": "Выгрузить",
     "media.uploadHelp": "Кликните или перетащите сюда одно или более изображений",
     "media.uploadImage": "Выгрузить изображение",
+    "media.contentID": "Content-ID",
     "menu.allCampaigns": "Все кампании",
     "menu.allLists": "Все списки",
     "menu.allSubscribers": "Все подписчики",

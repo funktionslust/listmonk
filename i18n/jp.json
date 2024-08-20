@@ -294,6 +294,7 @@
     "media.upload": "アップロード",
     "media.uploadHelp": "ここに一枚か複数の画像をクリック、又はドラックしてください。",
     "media.uploadImage": "画像のアップロード",
+    "media.contentID": "Content-ID",
     "menu.allCampaigns": "全てのキャンペーン",
     "menu.allLists": "全てのリスト",
     "menu.allSubscribers": "全ての加入者",

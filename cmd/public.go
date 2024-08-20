@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/knadh/listmonk/internal/core"
 	"github.com/knadh/listmonk/internal/i18n"
 	"github.com/knadh/listmonk/internal/manager"
 	"github.com/knadh/listmonk/models"
@@ -608,7 +609,7 @@ func handleSelfExportSubscriberData(c echo.Context) error {
 			{
 				Name:    fname,
 				Content: b,
-				Header:  manager.MakeAttachmentHeader(fname, "base64", "application/json"),
+				Header:  manager.MakeAttachmentHeader(fname, "base64", "application/json", core.MakeContentID(0, fname, app.constants.FromEmail)),
 			},
 		},
 	}); err != nil {

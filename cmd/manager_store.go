@@ -14,17 +14,19 @@ import (
 // store implements DataSource over the primary
 // database.
 type store struct {
-	queries *models.Queries
-	core    *core.Core
-	media   media.Store
-	h       *http.Client
+	queries   *models.Queries
+	core      *core.Core
+	media     media.Store
+	h         *http.Client
+	fromEmail string
 }
 
-func newManagerStore(q *models.Queries, c *core.Core, m media.Store) *store {
+func newManagerStore(q *models.Queries, c *core.Core, m media.Store, fromEmail string) *store {
 	return &store{
-		queries: q,
-		core:    c,
-		media:   m,
+		queries:   q,
+		core:      c,
+		media:     m,
+		fromEmail: fromEmail,
 	}
 }
 
@@ -68,7 +70,7 @@ func (s *store) UpdateCampaignCounts(campID int, toSend int, sent int, lastSubID
 
 // GetAttachment fetches a media attachment blob.
 func (s *store) GetAttachment(mediaID int) (models.Attachment, error) {
-	m, err := s.core.GetMedia(mediaID, "", s.media)
+	m, err := s.core.GetMedia(mediaID, "", s.media, s.fromEmail)
 	if err != nil {
 		return models.Attachment{}, err
 	}
@@ -81,7 +83,7 @@ func (s *store) GetAttachment(mediaID int) (models.Attachment, error) {
 	return models.Attachment{
 		Name:    m.Filename,
 		Content: b,
-		Header:  manager.MakeAttachmentHeader(m.Filename, "base64", m.ContentType),
+		Header:  manager.MakeAttachmentHeader(m.Filename, "base64", m.ContentType, m.ContentID),
 	}, nil
 }
 

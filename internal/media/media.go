@@ -12,6 +12,7 @@ type Media struct {
 	ID          int         `db:"id" json:"id"`
 	UUID        string      `db:"uuid" json:"uuid"`
 	Filename    string      `db:"filename" json:"filename"`
+	ContentID   string      `json:"content_id"`
 	ContentType string      `db:"content_type" json:"content_type"`
 	Thumb       string      `db:"thumb" json:"-"`
 	CreatedAt   null.Time   `db:"created_at" json:"created_at"`
